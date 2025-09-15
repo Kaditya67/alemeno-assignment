@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: creditdb
+      POSTGRES_USER: credituser
+      POSTGRES_PASSWORD: creditpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    command: gunicorn credit_system.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=supersecret
+      - DJANGO_ALLOWED_HOSTS=*
+      - DATABASE_NAME=creditdb
+      - DATABASE_USER=credituser
+      - DATABASE_PASSWORD=creditpass
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    build: .
+    command: celery -A credit_system worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_NAME=creditdb
+      - DATABASE_USER=credituser
+      - DATABASE_PASSWORD=creditpass
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:

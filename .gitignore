@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+*.log
+*.pot
+*.pyc
+
+# Django
+*.sqlite3
+db.sqlite3
+*.db
+media/
+staticfiles/
+
+# Environment
+.env
+*.env
+.env.*
+*.venv
+venv/
+ENV/
+env/
+.venv/
+.Python
+
+# VSCode / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# Migrations (optional: keep if you want migrations tracked)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+*.pidfile
+docker-compose.override.yml
+.docker/
+*.tar
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage / Testing
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+pytest_cache/
+.pytest_cache/
+
+# Build
+build/
+dist/
+*.manifest
+*.spec
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# Node (if frontend exists in repo)
+node_modules/
+npm-debug.log
+yarn-error.log
